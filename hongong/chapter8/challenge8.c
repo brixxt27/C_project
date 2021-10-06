@@ -2,14 +2,27 @@
 #include <stdlib.h>
 int	main(void)
 {
-	char	*p = NULL;
-	int		size = 0;
+	char	p[80];
+	char	*ap;
+	int		i;
+	int		count;
 
-	scanf("%s", p);
-	size = sizeof(p) / sizeof(char);
-	p = (char *)malloc(sizeof(char) * size + 1);
-	if (p == NULL)
-		return -1;
+	count = 0;
+	ap = p;
+	i = 0;
+	printf("문장 입력 : ");
+	fgets(p, 22, stdin);
+	while (*ap != '\0')
+	{
+		if ('A' <= *ap && *ap <= 'Z')
+		{
+			count++;
+			*ap += 'a' - 'A';
+		}
+		ap++;
+	}
+	printf("바뀐 문장 : ");
 	printf("%s\n", p);
+	printf("바뀐 문자의 수 : %d\n", count);
 	return 0;
 }
