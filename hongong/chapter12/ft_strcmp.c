@@ -5,5 +5,10 @@ int		ft_strcmp(char *pa, char *pb)
 		pa++;
 		pb++;
 	}
-	if
+	if (*pa > *pb)
+		return (1);
+	else if(*pa < *pb)
+		return (-1);
+	else
+		return (0);
 }
