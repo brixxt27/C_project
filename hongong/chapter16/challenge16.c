@@ -38,6 +38,8 @@ int	main(void)
 			cnt = 0;
 		}
 	}
+	else
+		printf("2보다 큰 자연수를 입력해주세요.\n");
 	for (i = 0; i < input - 2; i++)
 	{
 		if (pn[i] != -1)
@@ -47,6 +49,7 @@ int	main(void)
 		if ((i + 1) % 5 == 0)
 			printf("\n");
 	}
+	printf("\n");
 	free(pn);
 	return 0;
 }
