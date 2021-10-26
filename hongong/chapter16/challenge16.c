@@ -1,6 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+int		*find_prime(int *pn, int input, int num, int div, int cnt);
+void	print_number(int *pn, int input);
+
 int	main(void)
 {
 	int		input;
@@ -18,6 +21,16 @@ int	main(void)
 		printf("ERROR\n");
 		return (-1);
 	}
+	find_prime(pn, input, num, div, cnt);
+	print_number(pn, input);
+	free(pn);
+	return 0;
+}
+
+int		*find_prime(int *pn, int input, int num, int div, int cnt)
+{
+	int i;
+
 	if (input > 2)
 	{
 		pn[0] = 2;
@@ -40,6 +53,13 @@ int	main(void)
 	}
 	else
 		printf("2보다 큰 자연수를 입력해주세요.\n");
+	return (pn);
+}
+
+void	print_number(int *pn, int input)
+{
+	int i;
+
 	for (i = 0; i < input - 2; i++)
 	{
 		if (pn[i] != -1)
@@ -50,6 +70,4 @@ int	main(void)
 			printf("\n");
 	}
 	printf("\n");
-	free(pn);
-	return 0;
 }
