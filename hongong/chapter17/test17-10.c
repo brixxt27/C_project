@@ -9,7 +9,7 @@ union student
 
 int	main(void)
 {
-	union student s1 = {315};
+	union student s1 = {.grade = 4.4};
 	printf("학번 : %d\n", s1.num);
 	printf("학점 : %.1lf\n", s1.grade);
 	printf("등급 : %c\n", s1.c);
