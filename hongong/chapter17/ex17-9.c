@@ -22,6 +22,8 @@ int	main(void)
 	printf("head -> next -> next -> num : %d\n", head -> next -> next -> num);
 	printf("list all : ");
 	current = head; // head의 값은 변경시키지 않으면서 current의 값을 다음 구조체 변수의 주소값이 되도록 한다.
+	// linked list가 길어질수록 head로 모든 값을 찾아가기 힘들므로 다음 값을 찾아가는 별도의 포인터를 사용한다.
+	// head 포인터로도 아래 연산이 가능하지만 head의 값을 바꾸지 않는다면 이후에도 head를 이용해 처음으로 돌아올 수 있다.
 	while (current != NULL)
 	{
 		printf("%d ", current -> num);
