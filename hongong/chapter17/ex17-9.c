@@ -4,16 +4,16 @@ Linked list
 
 #include <stdio.h>
 
-struct list
+typedef struct list
 {
 	int			num;
 	struct list	*next; // 자기 참조 구조체는 자신의 구조체를 가리키는 포인터를 멤버로 갖는다.
-};
+} t_list;
 
 int	main(void)
 {
 	struct list	a = {10, 0}, b = {20, 0}, c = {30, 0}; // NULL 포인터가 나올 때까지 출력을 반복하기 위해 0으로 초기화. 하지만 사실 전역 변수는 0으로 초기화 되어 있긴 함.
-	struct list *head = &a, *current; // head는 a로 고정하고, 반복문으로 가리키고 있는 포인터를 변경하기 위해 current 포인터 변수를 선언해 준다.
+	t_list	*head = &a, *current; // head는 a로 고정하고, 반복문으로 가리키고 있는 포인터를 변경하기 위해 current 포인터 변수를 선언해 준다.
 
 	a.next = &b; // 멤버 접근 연산자로 구조체 변수로 선언된 a와 b에 각각 구조체 변수 b, c의 주소를 넣어준다.
 	b.next = &c; // 구조체는 여러 개의 멤버를 가질 수 있으나 그 자체로는 단지 하나의 변수이기 때문입니다.
