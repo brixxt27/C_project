@@ -13,6 +13,7 @@ struct			s_student
 void	input_data(void);
 char	cal_grade(double d);
 void	print_data(t_student *pt);
+void	sort_data(t_student *pt);
 
 int	main(void)
 {
@@ -42,6 +43,22 @@ void	input_data(void)
 		i++;
 	}
 	print_data(list);
+	sort_data(list);
+}
+
+char	cal_grade(double d)
+{
+	char c;
+
+	if (d >= 90)
+		c = 'A';
+	else if (d >= 80)
+		c = 'B';
+	else if (d >= 70)
+		c = 'C';
+	else
+		c = 'F';
+	return (c);
 }
 
 void	print_data(t_student *pt)
@@ -64,17 +81,31 @@ void	print_data(t_student *pt)
 	}
 }
 
-char			cal_grade(double d)
+void	sort_data(t_student *pt)
 {
-	char c;
+	t_student	sort_pt[5];
+	t_student	max;
+	int			i;
+	int			j;
+	int			k;
 
-	if (d >= 90)
-		c = 'A';
-	else if (d >= 80)
-		c = 'B';
-	else if (d >= 70)
-		c = 'C';
-	else
-		c = 'F';
-	return (c);
+	i = 0;
+	j = 1;
+	while (i < 5)
+	{
+		while (j < 4)
+		{
+			max = pt[i];
+			if (max.total < pt[j].total)
+			{
+				max = pt[j];
+				k = j;
+			}
+			j++;
+		}
+		pt[k].total = -1;
+		sort_pt[i] = max;
+		i++;
+	}
+	print_data(sort_pt);
 }
