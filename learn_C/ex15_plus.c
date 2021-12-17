@@ -53,7 +53,7 @@ int	main(int argc, char *argv[])
 	//세 번째 방법: 포인터를 단순 배열처럼 사용
 	for (i = 0; i < count; i++)
 	{
-		printf("%s is %d years old again.\n", cur_name[i], cur_age[i]);
+		printf("%s is %d years old again.\n", *(cur_name + i), *(cur_age + i));
 	}
 
 	printf("---\n");
