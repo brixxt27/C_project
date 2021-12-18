@@ -42,6 +42,7 @@ int	main(int argc, char *argv[])
 	joe -> age += 20;
 	joe -> height -=2;
 	joe -> weight += 40;
+	// 사람의 정보 출력하는 함수
 	Person_print(joe);
 
 	frank -> age += 20;
@@ -49,9 +50,10 @@ int	main(int argc, char *argv[])
 	Person_print(frank);
 
 	// 구조체를 제거한다.
-	Person_destroy(joe);
+	Person_destroy(NULL);
 	Person_destroy(frank);
 
+	// 이후 프로그램 종료를 하며 OS 측에 프로그램이 성공적으로 마무리 되었다는 것을 알려주기 위해 0을 반환한다.
 	return (0);
 }
 
@@ -65,27 +67,35 @@ struct Person *Person_create(char *name, int age, int height, int weight)
 	// 거짓이면 몇 행에서 조건이 거짓인지 알려준다.
 	assert(who != NULL);
 
-	// strdup 함수로 name 
+	// strdup 함수로 const char *s1 으로 들어온 문자열 s1을 다룬다.
+	// str의 길이에 널 문자에 해당하는 1만큼 더해준 크기만큼 동적할당
+	// 실패하면 NULL 을 반환하고, 성공하면 동적할당한 공간에 문자열을 복사하고, 첫 번째 문자의 주소를 반환한다.
 	who -> name = strdup(name);
 	who -> age = age;
 	who -> height = height;
 	who -> weight = weight;
 
+	// 완성된 who struct Person * 자료형 포인터를 반환한다.
 	return (who);
 }
 
+// struct Person * 자료형 변수를 받아 다룬다.
 void	Person_print(struct Person *who)
 {
+	// -> 연사자는 구조체 포인터 변수로 멤버 변수에 접근할 때 사용한다.
 	printf("Name: %s\n", who -> name);
 	printf("\tage: %d\n", who -> age);
 	printf("\tHeight: %d\n", who -> height);
 	printf("\tWeight: %d\n", who -> weight);
 }
 
+// 힙 영역에서 구조체가 동적할당 된 구역을 free 함수를 통해 해제한다. 값은 없애는 것이 아니며, 할당 메모리만 해제하는 것이다.
 void	Person_destroy(struct Person *who)
 {
+	// assert 함수로 "who != NULL"인지를 판단하여 성공할 시 그대로 진행하고, 실패하면 에러 메시지로 현재 줄을 표시할 것이다.
 	assert(who != NULL);
 
+	// free함수를 사용할 때는 구조체에서 멤버부터 할당된 메모리 해제를 진행한 뒤, 구조체 변수 자체를 해제한다.
 	free(who -> name);
 	free(who);
 }
