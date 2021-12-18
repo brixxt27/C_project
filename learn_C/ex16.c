@@ -31,17 +31,30 @@ int	main(int argc, char *argv[])
 	
 	struct Person *frank = Person_create("Frank Blank", 20, 72, 180);
 
+	struct Person *jaesang = Person_create("Jaesang Yoon", 26, 172, 60);
 	// 구조체를 출력하면서 메모리 내 어디에 있는지도 같이 출력한다.
 	printf("Joe is at memory location %p:\n", joe);
 	Person_print(joe);
 
 	printf("Frank is at memory location %p:\n", frank);
 	Person_print(frank);
+
+	printf("Jaesang is at memory location %p:\n", jaesang);
+	Person_print(jaesang);
+	
 	
 	// 두 명의 나이에 각각 스무 살씩을 더한 다음 다시 출력한다.
 	joe -> age += 20;
 	joe -> height -=2;
 	joe -> weight += 40;
+	Person_print(joe);
+	
+
+	// 멤버 참조 연산자가 아닌 멤버 접근 연산자 사용해보기
+	(*joe).age += 20;
+	(*joe).height -= 2;
+	(*joe).weight += 40;
+
 	// 사람의 정보 출력하는 함수
 	Person_print(joe);
 
@@ -49,9 +62,16 @@ int	main(int argc, char *argv[])
 	frank -> weight += 20;
 	Person_print(frank);
 
+	jaesang -> age += 4;
+	jaesang -> weight += 10;
+	Person_print(jaesang);
+
 	// 구조체를 제거한다.
-	Person_destroy(NULL);
+	Person_destroy(joe);
 	Person_destroy(frank);
+	Person_destroy(jaesang);
+
+	system("leaks ex16");
 
 	// 이후 프로그램 종료를 하며 OS 측에 프로그램이 성공적으로 마무리 되었다는 것을 알려주기 위해 0을 반환한다.
 	return (0);
