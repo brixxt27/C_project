@@ -24,6 +24,7 @@ struct Connection {
 };
 
 void	die(const char *message);
+struct Connection *Database_open(const char *filename, char mode);
 
 int	main(int argc, char *argv[])
 {
@@ -44,4 +45,26 @@ void	die(const char *message)
 	}
 
 	exit (1);
+}
+
+struct Connection *Database_open(const char *filename, char mode)
+{
+	struct Connection *conn = malloc(sizeof(struct Connection));
+	if (!conn)
+		die("Memory error");
+
+	conn -> db = malloc(sizeof(struct Database));
+	if (!conn -> db)
+		die("Memory error");
+
+	if (mode = 'c')
+		conn -> file = fopen(filename, "w");
+	else
+	{
+		conn -> file = fopen(filename, "r+");
+		
+		if (conn -> file) {
+			Database_load(conn);
+		}
+	}
 }
