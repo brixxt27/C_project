@@ -24,7 +24,8 @@ struct Connection {
 };
 
 void	die(const char *message);
-struct Connection *Database_open(const char *filename, char mode);
+struct	Connection *Database_open(const char *filename, char mode);
+void	Database_load(struct Connection *conn);
 
 int	main(int argc, char *argv[])
 {
@@ -40,7 +41,8 @@ void	die(const char *message)
 {
 	if (errno) {
 		perror(message);
-	} else {
+	}
+	else {
 		printf("ERROR: %s\n", message);
 	}
 
@@ -67,4 +69,16 @@ struct Connection *Database_open(const char *filename, char mode)
 			Database_load(conn);
 		}
 	}
+
+	if (!conn -> file)
+		die("Failed to open the file");
+
+	return (conn);
+}
+
+void	Database_load(struct Connection *conn)
+{
+	int rc = fread(conn -> db, sizeof(struct Database), 1, conn -> file);
+	if (rc != 1)
+		die("Failed to load database.");
 }
