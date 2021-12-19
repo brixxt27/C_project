@@ -25,9 +25,10 @@ struct Connection {
 
 void	die(const char *message);
 struct	Connection *Database_open(const char *filename, char mode);
+void	Database_create(struct Connection *conn);
 void	Database_load(struct Connection *conn);
 void	Database_write(struct Connection *conn);
-void	Databases_get(struct Connection *conn, int id);
+void	Database_get(struct Connection *conn, int id);
 void	Database_set(struct Connection *conn, int id, const char *name, const char *email);
 void	Address_print(struct Address *addr);
 void	Database_delete(struct Connection *conn, int id);
@@ -49,7 +50,7 @@ int	main(int argc, char *argv[])
 
 	switch (action) {
 		case 'c':
-			Databases_create(conn);
+			Database_create(conn);
 			Database_write(conn);
 			break;
 
@@ -69,7 +70,7 @@ int	main(int argc, char *argv[])
 			break;
 
 		case 'd':
-			of (argc != 4)
+			if (argc != 4)
 				die("Need id to delete");
 
 			Database_delete(conn, id);
@@ -111,7 +112,7 @@ struct Connection *Database_open(const char *filename, char mode)
 	if (!conn -> db)
 		die("Memory error");
 
-	if (mode = 'c')
+	if (mode == 'c')
 		conn -> file = fopen(filename, "w");
 	else
 	{
@@ -126,6 +127,18 @@ struct Connection *Database_open(const char *filename, char mode)
 		die("Failed to open the file");
 
 	return (conn);
+}
+
+void	Database_create(struct Connection *conn)
+{
+	int i = 0;
+
+	for (i = 0; i < MAX_ROWS; i++) {
+		// 초기화 용도로 사용할 프로토 타입을 만든다.
+		struct Address addr = { .id = i, .set = 0 };
+		// 이제 지정만 하면 된다.
+		conn -> db -> rows[i] = addr;
+	}
 }
 
 void	Database_load(struct Connection *conn)
@@ -149,7 +162,7 @@ void	Database_write(struct Connection *conn)
 		die("Cannot flush database.");
 }
 
-void	Databases_get(struct Connection *conn, int id)
+void	Database_get(struct Connection *conn, int id)
 {
 	struct Address *addr = &conn -> db -> rows[id];
 
@@ -179,7 +192,7 @@ void	Database_set(struct Connection *conn, int id, const char *name, const char 
 		die("Email copy failed");
 }
 
-void	Address_print(struct Address *addr);
+void	Address_print(struct Address *addr)
 {
 	printf("%d %s %s\n", addr -> id, addr -> name, addr -> email);
 }
