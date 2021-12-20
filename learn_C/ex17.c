@@ -1,28 +1,43 @@
+// printf() 함수를 사용하기 위해 사용
 #include <stdio.h>
+// assert() 함수로 인수로 넣은 조건에 대해 참이면 그대로 진행, 거짓이면 몇 행에서 조건이 거짓인지 알려준다.
 #include <assert.h>
+// exit()
+// NULL
 #include <stdlib.h>
+// errno으로 if 조건을 통해 에러 메시지를 출력하기 위해
 #include <errno.h>
+// strncpy 함수 사용: Database_set 에서 사용한다.
 #include <string.h>
 
+// MAX_DATA 에 대해 정수 값인 512 로 정의한다. 전처리 과정에서 MAX_DATA 는 512로 모두 변경되어 컴파일 된다.
 #define MAX_DATA 512
+// 위 방식과 동일하게 MAX_ROWS 를 100으로 변경한다.
 #define MAX_ROWS 100
 
+// 새로운 구조체 자료형을 생성한다.
 struct Address {
+	// 구조체는 여러 자료형을 한 번에 다룰 수 있다. 구조체 변수 한 번의 선언으로 전부 다룰 수 있다는 의미이다.
 	int id;
 	int set;
 	char name[MAX_DATA];
 	char email[MAX_DATA];
 };
 
+// Address 구조체에 저장된 사용자 정보를 Database 자료형으로 여러 명 다룰 수 있게 한다.
 struct Database {
+	// 배열로 여러 사람의 데이터를 다룰 수 있다.
 	struct Address rows[MAX_ROWS];
 };
 
+// Database 구조체를 가리키는 db 포인터를 사용한다.
 struct Connection {
+	// f 로 시작하는 함수를 사용하며 파일 관련 작업을 할 수 있다. FILE 이라는 구조체는 C 컴파일러 자체에 선언 되어 있는 구조체 이다.
 	FILE *file;
 	struct Database *db;
 };
 
+// main 함수를 가장 위에 작성하기 위해 함수 선언을 미리 해줌으로써 컴파일러에게 이런 함수가 있다는 것을 알려준다.
 void	die(const char *message);
 struct	Connection *Database_open(const char *filename, char mode);
 void	Database_create(struct Connection *conn);
@@ -35,21 +50,19 @@ void	Database_delete(struct Connection *conn, int id);
 void	Database_list(struct Connection *conn);
 void	Database_close(struct Connection *conn);
 
+// main 함수 선언 및 정의이며, 명령행 인자를 받기 위해 매개변수를 지정해줬다.
 int	main(int argc, char *argv[])
 {
 	// ./ex17 db.dat c 같이 적어도 argc == 3 이어야 가능하다.
 	// 이보다 적으면 에러 메시지를 띄운다.
 	if (argc < 3)
+		// die 함수에 문자열을 건내준다. 에러 메시지 출력을 위해서 이다.
 		die("USAGE: ex17 <dbfile> <action> [action params]");
 
 	// argv[1] 을 파일명으로 지정하고, action 을 지정하므로써 이후에 할 switch 문에 전해준다.
 	char	*filename = argv[1];
 	char	action = argv[2][0];
-	// struct Connection
-	// {
-	// 	FILE *file;
-	// 	struct Database *db;
-	// };
+	// 파일을 생성하며
 	struct	Connection *conn = Database_open(filename, action);
 	// id 는 저장할 data 의 항목 숫자이며, 처음에는 아무 것도 가리키지 않는 0으로 초기화한다.
 	int		id = 0;
@@ -128,12 +141,15 @@ struct Connection *Database_open(const char *filename, char mode)
 	// conn 이 NULL 이라면 die 함수에 Memory error 내용으로 에러 메시지를 출력하도록 한다.
 	if (!conn)
 		die("Memory error");
-	// 구조체 내에 있는 포인터 변수 같은 경우에는 그 변수가 가리키는 메모리 영역을 동적할당으로 지정하여 사용한다.
+	// 많은 데이터를 사용하게 된다면 stack 메모리 보다 heap 영역을 사용해야 한다. 왜냐하면 heap 영역은 컴퓨터에서 사용하지 않는 모든 메모리를 의미하기 때문이다. Address 구조체를 Database 라는 구조체 자료형 배열 rows의 각 인덱스에넣어 여러명의 데이터를 다루며, 이를 Connection 구조체의 Database 자료형 포인터 db로 가리킨다. 이는 메모리 영역을 동적할당으로 할당 받아 사용한다.
 	conn -> db = malloc(sizeof(struct Database));
+	// conn 이 동적할당 실패했을 때 에러 메시지를 출력하기 위해 die 함수에 문자열을 건낸다.
 	if (!conn -> db)
 		die("Memory error");
 
+	// argv[2][0] 으로 'c' 가 들어왔다면 조건문 내부로 들어간다. c는 데이터를 만드는 create 에서 따온 문자다.
 	if (mode == 'c')
+		// FILE 구조체를 이용해 fopen는 처음 인수로 경로를 포함한 파일명을 작성하게 되고, 두 번째 인수에는 하게 될 행동을 작성하게 된다. w는 파일이 존재하면 해당 파일을 열어 데이터를 초기화 후 작성하게 된다. 만약 해당 이름의 파일이 없다면 새롭게 파일을 생성한다. 
 		conn -> file = fopen(filename, "w");
 	else
 	{
