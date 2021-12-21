@@ -1,0 +1,4 @@
+Gil_dong 80 90 75
+Sun_sin 59 60 61
+Shin_hye 80 90 70
+

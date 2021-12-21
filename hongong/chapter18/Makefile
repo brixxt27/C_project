@@ -1,5 +1,5 @@
 CC = gcc
-CFLAGS = -Wall
+CFLAGS = -Wall -g
 
 fclean :
-	find . -not \( -name "*.c" -or -name "Makefile" \) -delete
+	find . -not \( -name "*.c" -or -name "Makefile" -or -name "a.txt" \) -delete
