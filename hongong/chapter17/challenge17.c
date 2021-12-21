@@ -10,20 +10,23 @@ struct			s_student
 	double	avg;
 	char	grade;
 };
-void	input_data(void);
+void	input_data(t_student *list);
 char	cal_grade(double d);
 void	print_data(t_student *pt);
 void	sort_data(t_student *pt);
 
 int	main(void)
 {
-	input_data();
+	t_student	list[5];
+
+	input_data(list);
+	print_data(list);
+	sort_data(list);
 	return 0;
 }
 
-void	input_data(void)
+void	input_data(t_student *list)
 {
-	t_student	list[5];
 	int			i;
 
 	i = 0;
@@ -42,8 +45,6 @@ void	input_data(void)
 		list[i].grade = cal_grade(list[i].avg);
 		i++;
 	}
-	print_data(list);
-	sort_data(list);
 }
 
 char	cal_grade(double d)
