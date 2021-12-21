@@ -1,9 +1,9 @@
 // printf() 함수를 사용하기 위해 사용
+// NULL은 stdlib.h에도 있고, stdio.h 에도 있다.
 #include <stdio.h>
 // assert() 함수로 인수로 넣은 조건에 대해 참이면 그대로 진행, 거짓이면 몇 행에서 조건이 거짓인지 알려준다.
 #include <assert.h>
 // exit()
-// NULL
 #include <stdlib.h>
 // errno으로 if 조건을 통해 에러 메시지를 출력하기 위해
 #include <errno.h>
@@ -32,8 +32,9 @@ struct Database {
 
 // Database 구조체를 가리키는 db 포인터를 사용한다.
 struct Connection {
-	// f 로 시작하는 함수를 사용하며 파일 관련 작업을 할 수 있다. FILE 이라는 구조체는 C 컴파일러 자체에 선언 되어 있는 구조체 이다.
+	// f 로 시작하는 함수를 사용하며 파일 관련 작업을 할 수 있다. FILE 이라는 구조체는 C 표준 라이브러리에 선언 되어 있다.
 	FILE *file;
+	// db 를 다루기 위해 Database 구조체 자료형으로 선언.
 	struct Database *db;
 };
 
@@ -56,13 +57,13 @@ int	main(int argc, char *argv[])
 	// ./ex17 db.dat c 같이 적어도 argc == 3 이어야 가능하다.
 	// 이보다 적으면 에러 메시지를 띄운다.
 	if (argc < 3)
-		// die 함수에 문자열을 건내준다. 에러 메시지 출력을 위해서 이다.
+		// die 함수에 문자열을 건내준다. 에러 메시지 출력을 위해서 이다. 문자열에 나타난 형식으로 명령행 인자를 주라는 의미이다.
 		die("USAGE: ex17 <dbfile> <action> [action params]");
 
-	// argv[1] 을 파일명으로 지정하고, action 을 지정하므로써 이후에 할 switch 문에 전해준다.
+	// argv[1] 을 파일명으로 지정하고, argv[2][0]으로 action 을 지정하므로써 이후에 할 switch 문에 전해준다.
 	char	*filename = argv[1];
 	char	action = argv[2][0];
-	// 파일을 생성하며
+	// 파일을 생성한다.
 	struct	Connection *conn = Database_open(filename, action);
 	// id 는 저장할 data 의 항목 숫자이며, 처음에는 아무 것도 가리키지 않는 0으로 초기화한다.
 	int		id = 0;
