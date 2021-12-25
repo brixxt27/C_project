@@ -84,7 +84,7 @@ int	main(int argc, char *argv[])
 	switch (action) {
 		case 'c':
 			Database_create(conn);
-			//Database_write(conn);
+			Database_write(conn);
 			break;
 
 		case 'g':
