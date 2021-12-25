@@ -1,10 +1,10 @@
 /*
-1. printf() 함수를 사용하기 위해 사용
+1. <stdio.h> printf() 함수를 사용하기 위해 사용
 NULL은 stdlib.h에도 있고, stdio.h 에도 있다.
-2. assert() 함수로 인수로 넣은 조건에 대해 참이면 그대로 진행, 거짓이면 몇 행에서 조건이 거짓인지 알려준다.
-3. exit()
-4. errno으로 if 조건을 통해 에러 메시지를 출력하기 위해
-5. strncpy 함수 사용: Database_set 에서 사용한다.
+2. <assert.h> assert() 함수로 인수로 넣은 조건에 대해 참이면 그대로 진행, 거짓이면 몇 행에서 조건이 거짓인지 알려준다.
+3. <stdlib.h> atoi(), exit()
+4. <errno.h> errno으로 if 조건을 통해 에러 메시지를 출력하기 위해
+5. <string.h> strncpy 함수 사용: Database_set 에서 사용한다.
 */
 #include <stdio.h>
 #include <assert.h>
@@ -30,16 +30,16 @@ struct Address {
 };
 
 // Address 구조체에 저장된 사용자 정보를 Database 자료형으로 여러 명 다룰 수 있게 한다.
+// 배열로 여러 사람의 데이터를 다룰 수 있다.
 struct Database {
-	// 배열로 여러 사람의 데이터를 다룰 수 있다.
 	struct Address rows[MAX_ROWS];
 };
 
 // Database 구조체를 가리키는 db 포인터를 사용한다.
+// f 로 시작하는 함수를 사용하며 파일 관련 작업을 할 수 있다. FILE 이라는 구조체는 C 표준 라이브러리에 선언 되어 있다.
+// db 를 다루기 위해 Database 구조체 자료형으로 선언.
 struct Connection {
-	// f 로 시작하는 함수를 사용하며 파일 관련 작업을 할 수 있다. FILE 이라는 구조체는 C 표준 라이브러리에 선언 되어 있다.
 	FILE *file;
-	// db 를 다루기 위해 Database 구조체 자료형으로 선언.
 	struct Database *db;
 };
 
@@ -61,8 +61,8 @@ int	main(int argc, char *argv[])
 {
 	// ./ex17 db.dat c 같이 적어도 argc == 3 이어야 가능하다.
 	// 이보다 적으면 에러 메시지를 띄운다.
-	if (argc < 3)
 		// die 함수에 문자열을 건내준다. 에러 메시지 출력을 위해서 이다. 문자열에 나타난 형식으로 명령행 인자를 주라는 의미이다.
+	if (argc < 3)
 		die("USAGE: ex17 <dbfile> <action> [action params]");
 
 	// argv[1] 을 파일명으로 지정하고, argv[2][0]으로 action 을 지정하므로써 이후에 할 switch 문에 전해준다.
@@ -82,6 +82,7 @@ int	main(int argc, char *argv[])
 
 	// argv[2][0]으로 지정했던 문자를 action 변수에 넣어 switch 문으로 앞으로 할 행동에 대해 지정한다.
 	switch (action) {
+		// action 변수에 들어간 문자에 따라 각 case로 점프한다. if문과 다른 점은 모든 case를 다 읽는 것이 아니라 해당 문자로 점프하는 것이다.
 		case 'c':
 			Database_create(conn);
 			Database_write(conn);
@@ -176,15 +177,18 @@ struct Connection *Database_open(const char *filename, char mode)
 // Database_open 함수가 성공적으로 작동하여 conn -> file 변수가 NULL 이 아니라면 이 함수를 실행한다.
 void	Database_load(struct Connection *conn)
 {
+	// fread 함수는 이전에 fopen으로 열었던 파일의 내용을 scanf 처럼 입력 받는 함수이다. 이는 이진 데이터 그대로를 읽어오기 때문에 사람이 읽을 수 없는 내용으로 이루어져 있다.
 	int rc = fread(conn -> db, sizeof(struct Database), 1, conn -> file);
 	if (rc != 1)
 		die("Failed to load database.");
 }
 
+// 각 배열 요소의 .id를 i = 0 부터  i = 99까지 값을 넣어가며 초기화한다.
 void	Database_create(struct Connection *conn)
 {
 	int i = 0;
 
+	// MAX_ROWS 는 100으로 정의되어 있다.
 	for (i = 0; i < MAX_ROWS; i++) {
 		// 초기화 용도로 사용할 프로토 타입을 만든다.
 		struct Address addr = { .id = i, .set = 0 };
@@ -193,6 +197,7 @@ void	Database_create(struct Connection *conn)
 	}
 }
 
+// f
 void	Database_write(struct Connection *conn)
 {
 	rewind(conn -> file);
