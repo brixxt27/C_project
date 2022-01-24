@@ -67,7 +67,6 @@ char	**make_word(char *str, size_t len)
 	if (!arr)
 		return (NULL);
 	*(arr + len) = NULL;
-	len = strlen(str);
 	while (arr[i])
 	{
 		while (str[j])
