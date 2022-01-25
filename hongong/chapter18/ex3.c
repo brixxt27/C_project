@@ -3,14 +3,15 @@
 
 int	main(void)
 {
-	FILE	*fp, *ofp;
+	FILE	*fp;
+	FILE	*ofp;
 	char	name[20];
 	int		kor, eng, mat;
 	int		tot;
 	double	avg;
 
 	fp = fopen("a.txt", "r");
-	ofp = fopen("b.txt", "w");
+	ofp = fopen("ex3.txt", "w");
 	if (fp == NULL || ofp == NULL)
 	{
 		printf("ERROR: fopen's error\n");
