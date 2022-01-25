@@ -8,7 +8,7 @@ int		check_length(char *str, size_t len);
 
 char	**make_word(char *str, size_t len);
 char	**organize_the_order(char **arr, size_t len);
-void	print_array(char **arr);
+void	print_array(char **arr, size_t len);
 
 int	main(void)
 {
@@ -26,7 +26,7 @@ int	main(void)
 		return (-1);
 	}
 	arr = organize_the_order(arr, len);
-	print_array(arr);
+	print_array(arr, len);
 	free(arr);
 	return (0);
 }
@@ -61,50 +61,62 @@ int	check_length(char *str, size_t len)
 char	**make_word(char *str, size_t len)
 {
 	char	**arr;
-	int		i = 0, j = 0;
+	int		i = 0;
 
-	arr = (char **)malloc((len + 1) * sizeof(char *));
+	arr = (char **)malloc((len) * sizeof(char *));
 	if (!arr)
 		return (NULL);
-	*(arr + len) = NULL;
-	while (arr[i])
+	while (i < len)
 	{
-		while (str[j])
-		{
-			arr[i][j] = str[i + j];
-			j++;
-		}
+		arr[i] = &str[i];
 		i++;
 	}
 	return (arr);
 }
 
+int		ft_strcmp(const void *s1, const void *s2)
+{
+	const char *str1 = *(const char **)s1;
+	const char *str2 = *(const char **)s2;
+
+	for ( ; *str1 == *str2 && *str1 && *str2; str1++, str2++)
+	{
+		continue ;
+	}
+	return (*str1 - *str2);
+}
+
 char	**organize_the_order(char **arr, size_t len)
 {
-	int		i = 0, j = 0, n = 1;
+	int		i = 0, j = 0, max_idx;
 	char	*temp = NULL;
 
-	while (arr[i][j])
+	qsort(arr, len, sizeof(char *), ft_strcmp);
+/*
+	for (i = 0; i < len - 1; i++)
 	{
-		while (i < len - 1)
+		max_idx = i;
+		for (j = i + 1; j < len; j++)
 		{
-			if (arr[i][j] > arr[i + n][j])
-			{
-				temp = arr[i];
-				arr[i] = arr[i + n];
-				arr[i + n] = temp;
-			}
-			i++;
+			if (strcmp(arr[j], arr[max_idx]) < 0)
+				max_idx = j;
 		}
+		temp = arr[max_idx];
+		arr[max_idx] = arr[i];
+		arr[i] = temp;
 	}
+	*/
 	return (arr);
 }
 
-void	print_array(char **arr)
+void	print_array(char **arr, size_t len)
 {
-	while (arr)
+	size_t	i = 0;
+
+	while (i < len)
 	{
 		printf("%s\n", *arr);
 		arr++;
+		i++;
 	}
 }
