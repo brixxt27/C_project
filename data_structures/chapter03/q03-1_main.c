@@ -27,6 +27,7 @@ int	main(void)
 	else
 		printf("LFirst is error\n");
 	
+	printf("count now: %d\n", LCount(&list));
 	
 	if (LFirst(&list, &data))
 	{
@@ -49,5 +50,6 @@ int	main(void)
 		}
 	}
 	printf("\n");
+	printf("count now: %d\n", LCount(&list));
 	return (0);
 }
