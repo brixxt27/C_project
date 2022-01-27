@@ -14,8 +14,8 @@ void	LInsert(List *plist, LData data)
 		printf("List is full\n");
 		return ;
 	}
-	(plist->curPosition)++;
-	(plist->arr)[plist->curPosition] = data;
+
+	plist->arr[plist->numOfData] = data;
 	(plist->numOfData)++;
 }
 
@@ -45,13 +45,15 @@ LData	LRemove(List *plist)
 	LData	ret;
 	int		cur_location;
 
-	ret = (plist->arr)[plist->curPosition];
-	while (plist->curPosition < plist->numOfData - 1)
+	cur_location = plist->curPosition;
+	ret = (plist->arr)[cur_location];
+	while (cur_location < plist->numOfData - 1)
 	{
-		(plist->arr)[plist->curPosition] = (plist->arr)[plist->curPosition + 1];
-		(plist->curPosition)++;
+		(plist->arr)[cur_location] = (plist->arr)[cur_location + 1];
+		(cur_location)++;
 	}
 	(plist->numOfData)--;
+	(plist->curPosition)--;
 	return (ret);
 }
 
