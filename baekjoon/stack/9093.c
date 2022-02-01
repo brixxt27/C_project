@@ -44,7 +44,7 @@ char	**make_array(t_data *pdata)
 {
 	int i;
 
-	for (i = 0; i < pdata->test_case && i < 20; i++)
+	for (i = 0; i < pdata->test_case; i++)
 	{
 		pdata->sentence[i] = (char *)malloc(1001 * sizeof(char));
 	}
