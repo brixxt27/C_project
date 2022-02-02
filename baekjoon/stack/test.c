@@ -1,39 +1,51 @@
 #include <stdio.h>
+#include <stdlib.h>
 
 typedef struct s_test
 {
-	int a;
+	char	*arr[20];
 } t_test;
 
-void	add_1(t_test *pt);
-void	add_3(t_test *pt);
-void	print_data(t_test *pt);
+void	make_arr(t_test *pt)
+{
+	int i;
+	
+	for (i = 0; i < 4; i++)
+	{
+		pt->arr[i] = (char *)malloc(1002 * sizeof(char));
+	}
+}
 
+void	input_case_arr(t_test *pt)
+{
+	int i;
+
+	for (i = 0; i < 4; i++)
+		fgets(pt->arr[i], 1002, stdin);
+}
+
+void	print_value(t_test *pt)
+{
+	int i;
+
+	for (i = 0; i < 4; i++)
+		printf("%d :	%s\n", i, pt->arr[i]);
+}
+
+void	free_arr(t_test *pt)
+{
+	int i;
+
+	for (i = 0; i < 4; i++)
+		free(pt->arr[i]);
+}
 int main(void)
 {
 	t_test	test;
 
-	test.a = 0;
-	add_1(&test);
-	print_data(&test);
+	make_arr(&test);
+	input_case_arr(&test);
+	print_value(&test);
+	free_arr(&test);
 	return (0);
-}
-
-void	add_1(t_test *pt)
-{
-	pt->a++;
-	print_data(pt);
-	add_3(pt);
-	pt->a++;
-	print_data(pt);
-}
-
-void	add_3(t_test *pt)
-{
-	pt->a+=3;
-	print_data(pt);
-}
-void	print_data(t_test *pt)
-{
-	printf("1:	%d\n", pt->a);
 }

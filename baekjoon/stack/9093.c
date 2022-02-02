@@ -7,11 +7,12 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 typedef struct s_data
 {
 	int		test_case;
-	char	*sentence[20];
+	char	**sentence;
 } t_data;
 
 void	input_test_case(t_data *pdata);
@@ -38,26 +39,35 @@ int	main(void)
 void	input_test_case(t_data *pdata)
 {
 	scanf("%d", &(pdata->test_case));
+	getchar();
 }
 
 char	**make_array(t_data *pdata)
 {
 	int i;
 
+	pdata->sentence = (char **)malloc(pdata->test_case * sizeof(char *));
+	if (!pdata->sentence)
+		return (NULL);
 	for (i = 0; i < pdata->test_case; i++)
 	{
-		pdata->sentence[i] = (char *)malloc(1001 * sizeof(char));
+		pdata->sentence[i] = (char *)malloc(1002 * sizeof(char));
+		if (!pdata->sentence[i])
+			return (NULL);
 	}
 	return (pdata->sentence);
 }
 
 void	input_sentence(t_data *pdata)
 {
-	int	i;
+	int		i;
+	char	*pnl;
 	
 	for (i = 0; i <  pdata->test_case; i++)
 	{
-		scanf("%s", pdata->sentence[i]);
+		fgets(pdata->sentence[i], 1002, stdin);
+		if (pnl = strchr(pdata->sentence[i], '\n'))
+			*pnl = '\0';
 	}
 }
 
@@ -68,13 +78,16 @@ void	find_word(t_data *pdata)
 
 	for (i = 0; i < pdata->test_case; i++)
 	{
-		first = j;
+		first = 0;
+		j = 0;
 		while (1)
 		{
 			if (pdata->sentence[i][j] == ' ' || pdata->sentence[i][j] == '\0')
 			{
 				last = j - 1;
 				reverse_word(pdata->sentence[i], first, last);
+				if (pdata->sentence[i][j])
+					first = j + 1;
 			}
 			if (pdata->sentence[i][j] == '\0')
 				break ;
@@ -115,4 +128,5 @@ void	free_array(t_data *pdata)
 	{
 		free(pdata->sentence[i]);
 	}
+	free(pdata->sentence);
 }
