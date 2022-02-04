@@ -1,12 +1,14 @@
 #ifndef __ARRAY_LIST_H__
 #define __ARRAY_LIST_H__
 
+# include "Point.h"
+
 #define TRUE	1
 #define FALSE	0
 
 /*** ArrayList의 정의 ****/
 #define LIST_LEN	100
-typedef int LData;
+typedef Point	*LData;
 /* 
  * int 를 따로 typedef로  선언해두면, 함수만 봤을 때 이게 성공과 실패에 대한 반환값인지, 요소를 반환하는 것인지 알기 쉬워진다.
  */
