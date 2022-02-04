@@ -64,9 +64,13 @@ int	main(void)
 	if (LFirst(&list, &ppos))
 	{
 		ShowPointPos(ppos);
+		free(ppos);
 
 		while(LNext(&list, &ppos))
+		{
 			ShowPointPos(ppos);
+			free(ppos);
+		}
 	}
 	printf("\n");
 	return (0);
