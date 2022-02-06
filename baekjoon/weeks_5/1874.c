@@ -53,7 +53,7 @@ int	main(void)
 	int		num = 1;
 	int		*pa;
 	char	*op;
-	int		i, j, k = 0;
+	int		i, k = 0;
 	int		flag = 0;
 	Stack	stack;
 
@@ -66,6 +66,7 @@ int	main(void)
 	{
 		scanf("%d", &pa[i]);
 	}
+	StackInit(&stack);
 	i = 0;
 	while (n != i)
 	{
