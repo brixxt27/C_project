@@ -43,8 +43,9 @@ typedef ListStack Stack;
 void StackInit(Stack * pstack);
 int SIsEmpty(Stack * pstack);
 
-void SPush(Stack * pstack, Data data);
-Data SPop(Stack * pstack);
+static void SPush(Stack * pstack, Data data);
+static Data SPop(Stack * pstack);
+
 Data SPeek(Stack * pstack);
 
 int	main(void)
@@ -126,7 +127,7 @@ int SIsEmpty(Stack * pstack)
 		return FALSE;
 }
 
-void SPush(Stack * pstack, Data data)
+static void SPush(Stack * pstack, Data data)
 {
 	Node * newNode = (Node*)malloc(sizeof(Node));
 
@@ -136,7 +137,7 @@ void SPush(Stack * pstack, Data data)
 	pstack->head = newNode;
 }
 
-Data SPop(Stack * pstack)
+static Data SPop(Stack * pstack)
 {
 	Data rdata;
 	Node * rnode;
