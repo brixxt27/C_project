@@ -1,0 +1,14 @@
+if 개행 있니
+	개행 전까지 ret
+	개행 이후는 storage
+	return ret
+else
+	if(ret)
+		free(ret)
+		ret BS * 2 allocate
+		ret = tmp
+	tmp BS 만큼 할당
+	tmp = storage
+	storage free
+	storage BS 만큼 할당
+	read(fd, storage, BS)

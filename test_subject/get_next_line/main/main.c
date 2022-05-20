@@ -17,11 +17,11 @@ int	main(void)
 	while (1)
 	{
 		printf("%s\n", str1 = get_next_line(fd1));
+		free(str1);
 		if (!str1)
 			break ;
 	}
 	//printf("%s\n", get_next_line(0));
 	close(fd1);
-	free(str1);
 	return (0);
 }
